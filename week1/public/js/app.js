@@ -1,8 +1,20 @@
-const url = 'https://geek-jokes.sameerkumar.website/api'
+var urlAPI = 'https://geek-jokes.sameerkumar.website/api'
 
 console.log("Welcome");
 
-// bron van hulp: https://medium.freecodecamp.org/here-is-the-most-popular-ways-to-make-an-http-request-in-javascript-954ce8c95aaa
-fetch(url)
-.then(data=>{return data.json()})
-.then(res=>{console.log(res)})
+// met behulp van bron: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests
+
+var requestAPI = new XMLHttpRequest();
+requestAPI.open("GET", urlAPI, true);
+requestAPI.onload = function (e) {
+    if (requestAPI.status === 200) {
+      console.log(requestAPI.responseText);
+    } else {
+      console.error(requestAPI.statusText);
+    }
+};
+
+requestAPI.onerror = function (e) {
+  console.error(requestAPI.statusText);
+};
+requestAPI.send(null);
