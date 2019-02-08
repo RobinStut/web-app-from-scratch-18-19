@@ -19,3 +19,9 @@ button{
 .pokemoncard{
   border: 1px solid black;
 }
+
+img{
+min-width: 30px;
+min-height: 30px;
+
+}

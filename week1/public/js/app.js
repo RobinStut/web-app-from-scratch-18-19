@@ -12,31 +12,25 @@ requestAPI.onload = async function(e) {
     var pokeAPI = JSON.parse(requestAPI.responseText)
     //console.log(pokeAPI)
     var pokemonArray = []
+
     // console.log(pokeAPI)
     // Loopt door object heen
     for (let i = 0; i < pokeAPI.results.length; i++) {
-      // console.log(i)
-    // pokeAPI.results.forEach(function(pokemon, index) {
-      // console.log(index)
-      // var linkNew = ("https://pokeapi.co/api/v2/pokemon/" + i
+  
+      let pokemonDetails = await getData(i);
 
-      let test = await getData(i);
+      console.log(pokemonDetails)
+      console.log(pokemonDetails.sprites.front_default)
 
-      console.log(test)
-
-
-      // console.log('https://pokeapi.co/api/v2/pokemon/' + i)
-      // console.log(pokemonArray)
-
-      // console.log(pokeAPI.results[i].name + " " + pokeAPI.results[i].url);
       element = document.getElementById("wrapper");
       element.innerHTML +=
+
       `
       <div class="pokemoncard" data-index=${i}>
+      <img url"${pokemonDetails.sprites.front_default}">
       <p>${pokeAPI.results[i].name}
       https://pokeapi.co/api/v2/pokemon/${pokeAPI.results[i].name}/</p>
-      <a href="${pokeAPI.results[i].url}">${pokeAPI.results[i].name}</p>
-      <img url"https://pokeapi.co/api/v2/pokemon/' + i}">
+      <a href="${pokeAPI.results[i].url}">${pokeAPI.results[i].name}</a>
       </div>
       `
     }
@@ -58,8 +52,7 @@ function getData(i) {
     requestPokemon.onload = function (e) {
       // console.log(requestPokemon)
       resolve(JSON.parse(requestPokemon.responseText))
-      //console.log(JSON.parse(requestPokemon.responseText))
-    //   pokemonArray.push(JSON.parse(requestPokemon.responseText))
+
     }
     requestPokemon.send()
   })
