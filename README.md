@@ -26,7 +26,7 @@ The data will be received by a request to the API. The request method I’m usin
 
 The API request I used is happening by a XMLHttpRequest. This allows me to get data from a specific (external) source. With the help of MDN, you are able to see how I did this:  [here](https://github.com/RobinStut/web-app-from-scratch-18-19/blob/master/week1/public/js/app.js).
 
-Source: [MDN](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests)
+Source: [developer.mozilla](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests)
 
 
 ### API Data
