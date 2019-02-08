@@ -2,7 +2,7 @@
 
 # Pokémon API
 
-This application shows data from the [Rijksmuseum API](https://The API I’m using contains all the Pokémon names existing and an URL to the detail page. Every detail page needs his own API request and the data contains all the information about the Pokémon and in which games it participated. There is a restriction on the API which forces me to only load 20 Pokemon’s at a time. 
+The API I’m using contains all the Pokémon names existing and an URL to the detail page. Every detail page needs his own API request and the data contains all the information about the Pokémon and in which games it participated. There is a restriction on the API which forces me to only load 20 Pokemon’s at a time. 
 
 
 ![screenshot](screenshot.png)
