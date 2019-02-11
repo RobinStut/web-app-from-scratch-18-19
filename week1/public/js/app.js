@@ -1,5 +1,4 @@
 var link = 'https://pokeapi.co/api/v2/pokemon'
-var requestAPI = new XMLHttpRequest();
 var requestPokemon = new XMLHttpRequest();
 var pokeAPI = '';
 var pokeAPI2 = '';
@@ -20,33 +19,54 @@ var loadData = new Promise(function(resolve, reject){
 
         //     // Start of loop
         pokeAPI.results.forEach(function(item) {
-          // multipleLinks()
-          var element = document.getElementById("wrapper");
-          //console.log(item.name);
-          //console.log(item.url);
-          element.innerHTML +=
-          `
-          <div class="pokemoncard" data-index=${item}>
-          <p>${item.name}
-          https://pokeapi.co/api/v2/pokemon/${item.name}/</p>
-          <a href="${item.url}">${item.name}</a>
-          </div>
-          `
-        })
 
-        pokeAPI.results.forEach(function(item2){
-           console.log(item2);
-         var loadData2 = new Promise((resolve, reject) => {
-             requestPokemon.open("GET", link.item2, true)
-             requestPokemon.onload = function(e) {
-               pokeAPI2 = JSON.parse(requestPokemon.responseText);
-               resolve(pokeAPI2);
-               console.log(item2)
-               }
-             requestPokemon.send()
-         })
-         }
-         )
+// Begin nieuwe API
+
+          var loadData2 = new Promise(function(resolve2, reject2){
+              var request2 = new XMLHttpRequest();
+              request2.open('GET', (link+"/"+item.name), true)
+
+              request2.onload = () => {
+                if (request2.status >= 200 && request2.status < 400) {
+                 // Success!
+                  pokeAPI2 = JSON.parse(request2.responseText);
+                  resolve(pokeAPI2);
+                  console.log(link+"/"+item.name);
+                  // console.log(request2.responseText.sprites);
+
+                  console.log(pokeAPI2.sprites.front_default);
+                  var element = document.getElementById("wrapper");
+                  element.innerHTML +=
+                  `
+                  <div class="pokemoncard" data-index=${item}>
+                  <p>${item.name}
+                  https://pokeapi.co/api/v2/pokemon/${item.name}/</p>
+                  <a href="${item.url}">${item.name}</a>
+                  <img src="${pokeAPI2.sprites.front_default}" alt="">
+                  </div>
+
+                  `
+                  }
+                else
+                  {
+                 // We reached our target server, but it returned an error
+                  reject(error);
+                }
+              };
+
+              request2.onerror = () => {
+                // There was a connection error of some sort
+              };
+
+              request2.send();
+            });
+
+// einde nieuwe api
+
+
+
+
+        })
 
       } else {
        // We reached our target server, but it returned an error
