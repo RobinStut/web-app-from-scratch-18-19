@@ -1,3 +1,4 @@
+var fixedLink = 'https://pokeapi.co/api/v2/pokemon/?limit=151&offset=0'
 var link = 'https://pokeapi.co/api/v2/pokemon'
 var requestPokemon = new XMLHttpRequest();
 var pokeAPI = '';
@@ -7,7 +8,7 @@ var pokeAPI2 = '';
 
 var loadData = new Promise(function(resolve, reject){
     var request = new XMLHttpRequest();
-    request.open('GET', link, true)
+    request.open('GET', fixedLink, true)
 
     request.onload = () => {
       if (request.status >= 200 && request.status < 400) {
@@ -34,15 +35,14 @@ var loadData = new Promise(function(resolve, reject){
                   console.log(link+"/"+item.name);
                   // console.log(request2.responseText.sprites);
 
-                  console.log(pokeAPI2.sprites.front_default);
+                  console.log(pokeAPI2);
                   var element = document.getElementById("wrapper");
                   element.innerHTML +=
                   `
-                  <div class="pokemoncard" data-index=${item}>
-                  <p>${item.name}
-                  https://pokeapi.co/api/v2/pokemon/${item.name}/</p>
-                  <a href="${item.url}">${item.name}</a>
+                  <div class="pokemoncard">
+                  <p class="pokeCP">CP <span>${pokeAPI2.base_experience}</span></p>
                   <img src="${pokeAPI2.sprites.front_default}" alt="">
+                  <p class="pokeName">${toCap(item.name)}</p>
                   </div>
 
                   `
@@ -80,3 +80,9 @@ var loadData = new Promise(function(resolve, reject){
 
     request.send();
   });
+
+
+  function toCap(string)
+  {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+  }
