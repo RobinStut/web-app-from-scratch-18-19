@@ -1,7 +1,7 @@
 body{
   font-family: 'Noto Sans', sans-serif;
   margin: 0 .5rem;
-  height: 100vw;
+  height: 100%;
   background: linear-gradient(to bottom, #92d2ac 0%,#66b6b6 100%);
   background-repeat:no-repeat;
 }
