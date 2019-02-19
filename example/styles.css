@@ -9,6 +9,7 @@ body{
 .pokemoncard{
   /* border: 1px solid black; */
   display: grid;
+    justify-content: center;
 }
 
 .pokemoncard a{
@@ -19,6 +20,7 @@ text-decoration: none;
 .pokeCP{
 color: #99a9aa;
 font-size: .75rem;
+text-align: center;
 }
 
 .pokeName, .pokeCP > span{

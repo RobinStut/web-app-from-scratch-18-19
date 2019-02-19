@@ -1,160 +1,134 @@
-var fixedLink = 'https://pokeapi.co/api/v2/pokemon/?limit=3&offset=0'
-var link = 'https://pokeapi.co/api/v2/pokemon'
-var requestPokemon = new XMLHttpRequest();
-var pokeAPI = '';
-var pokeAPI2 = '';
-var pokeFiltered = {};
-var pokeArray = [];
-console.log(pokeArray);
+var storedData = [];
 
-// begin router
 var router = {
-  routieF: function(){routie(':name', name => {
-    console.log(name);
-    render.detail(name);
-  })
-},
-  overview: function() {
-    console.log('//stap 2'); // stap 2
-    console.log('object api.get aanspreken');
-    api.get('overview')
-
+  detail: function() {
+    routie(":objectNumber", function() {
+      api.get("detail");
+    });
   },
-  route: '/',
-  detail: function(id) {}
-
-
+  overview: function() {
+    routie("/alles", function() {
+      api.get("overview");
+    });
+  },
+  overview: function() {
+    api.get("overview");
+  }
 };
-// eind router
 
-// api
-
+//API
 var api = {
   get: function(route) {
+    var url = "https://pokeapi.co/api/v2/pokemon/?limit=12&offset=0";
+    var api1Results
 
-    // stap 3
-    console.log('//stap 3');
-    // fetch data from api
+    console.log('api.get');
+    console.log('url ' + URL);
 
-    var loadData = new Promise(function(resolve, reject){
-        var route = new XMLHttpRequest();
-        route.open('GET', fixedLink, true)
+    async function apiRequest() {
+      let response = await fetch(url);
+      let data = await response.json()
 
-        route.onload = () => {
-          if (route.status >= 200 && route.status < 400) {
-           // Success!
-            api.parse(route);
-            // pokeAPI = JSON.parse(request.responseText);
-            resolve(pokeAPI);
-            console.log('parsing gelukt');
+      console.log(data);
+      console.log('async apiRequest');
+      api.filter(data);
+      // return data;
+    }
+    apiRequest()
+    // .then(data =>{
+    //
+    //   console.log('then');
+    //
+    //
+    // } );
 
-            //     // Start of loop
-
-            pokeAPI.results.forEach(function(item) {
-
-    // Begin nieuwe API
-
-              var loadData2 = new Promise(function(resolve2, reject2){
-                  var route2 = new XMLHttpRequest();
-                  route2.open('GET', (link+"/"+item.name), true)
-
-                  route2.onload = () => {
-
-                    if (route2.status >= 200 && route2.status < 400) {
-                     // Success!
-
-                      // pokeAPI2 = JSON.parse(route2.responseText);
-                      resolve(pokeAPI2);
-                      console.log(link+"/"+item.name);
-                      // console.log(route2.responseText);
-                      pokeArray.push(route2);
-                      // console.log(pokeArray[0]);
-                      console.log(route2);
-                      console.log(pokeAPI2.base_experience);
-                      // pushen naar array werkt
-
-                      api.parse(route2);
-                      pokeFiltered = {base_experience: pokeAPI2.base_experience, height: pokeAPI2.height, id: pokeAPI2.id, moves: pokeAPI2.moves, name: pokeAPI2.name, order: pokeAPI2.order, sprites: pokeAPI2.sprites, stats: pokeAPI2.stats, type: pokeAPI2.type, weight: pokeAPI2.weight}
-
-                      render.overview();
-                      router.routieF();
-                      // router.routtie2('#'+pokeFiltered.name);
-
-                      }
-                    else
-                      {
-                     // We reached our target server, but it returned an error
-                      reject(error);
-                    }
-
-                  };
-
-                  route2.onerror = () => {
-                    // There was a connection error of some sort
-                  };
-
-                  route2.send();
-                });
-
-    // einde nieuwe api
-
-            })
-
-          } else {
-           // We reached our target server, but it returned an error
-            reject(error);
-          }
-        };
-
-        route.onerror = () => {
-          // There was a connection error of some sort
-        };
-
-        route.send();
-      });
-
-    // this.parse(response); // this == api
   },
+  filter: function(data) {
+    console.log('api.filter');
+    // console.log(data.results);
+    filteredData = [];
+    data.results.forEach(function(data) {
+      filteredData.push({
+        url: data.url,
+      });
+    })
+    console.log(filteredData);
+    console.log('klaar met eerste filter');
+    this.nextGet(filteredData)
+  },
+  nextGet: function(response) {
+    var arrayLength = response.length;
+    var loopCount = 0;
+    console.log('api.nextGet');
+    console.log(loopCount);
 
-  parse: function(response) {
-    // stap 4
-    console.log('//stap 4');
-    pokeAPI = JSON.parse(response.responseText);
-    pokeAPI2 = JSON.parse(response.responseText);
-
-    // console.log(api.parse(response));
-    // console.log(response);
-
-    this.store(response)
+    response.forEach(function(item) {
+      async function apiRequest() {
+        let response = await fetch(item.url);
+        let data = await response.json()
+        console.log('async apiRequest2');
+        api.nextFilter(data);
+        loopCount++;
+        console.log(loopCount);
+        if (loopCount === arrayLength) {
+          console.log('forEach is klaar');
+          render.overview();
+        }
+        // return data;
+      }
+      apiRequest()
+    });
+  },
+  nextFilter: function(data) {
+    console.log('api.nextFilter');
+    // console.log(data);
+    // console.log(data.results);
+    filteredData = [];
+    filteredData.push({
+      name: data.name,
+      id: data.id,
+      xp: data.base_experience,
+      height: data.height,
+      weight: data.weight,
+      moves: data.moves,
+      stats: data.stats,
+      img: data.sprites,
+    });
+    // console.log(filteredData);
+    console.log('klaar met eerste filter');
+    api.store(filteredData)
   },
   store: function(response) {
-    // stap 5
-    console.log('//stap 5');
-    pokeFiltered = {base_experience: response.base_experience, height: response.height, id: response.id, moves: response.moves, name: response.name, order: response.order, sprites: response.sprites, stats: response.stats, type: response.type, weight: response.weight}
-    // render.overview();
+    console.log('api.store');
+    // console.log(response);
+    Array.prototype.push.apply(storedData, response);
+    console.log(storedData);
+
   },
-  filter: function() {},
-}
+};
 
-//render
-
+//RENDER
 var render = {
-  overview: function() {
-    var element = document.getElementById("pokemoncard");
-    element.innerHTML +=    `
-    <p class="pokeCP">CP <span>${pokeFiltered.base_experience}</span></p>
-    <img src="${pokeFiltered.sprites.front_default}" alt="">
-    <a href="${'file:///Users/backend/Desktop/webDev/example/index.html'+'#'+(pokeFiltered.name)}">${(pokeFiltered.name)}</a>
+    overview: function(data) {
+        console.log('render.overview');
+        var element = document.getElementById("wrapper");
 
-    `
+        storedData.forEach(function(item){
+          console.log(item);
+          element.innerHTML +=
+        `
+        <div id="pokemoncard" class="pokemoncard">
+        <p class="pokeCP">CP <span>${item.xp}</span></p>
+        <img src="${item.img.front_default}" alt="picture of ${item.name}">
+        <a class="pokeName" href="${(window.location.href)+'#'+(item.name)}">${item.name}</a>
+        </div>
+        `
+});
+
+
   },
-  detail: function(x) {
-  console.log('detail = ' + x);
-  // var element = document.getElementById("pokemoncard");
-  // element.innerHTML +=    `
-  // <p>detail ${x}</p>
-  // `
-  },
-}
-// example
+
+  detail: function(data) {}
+};
+
 router.overview();
