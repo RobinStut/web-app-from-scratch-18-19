@@ -1,8 +1,13 @@
 var storedData = [];
+var loader = 0;
 
 var router = {
   overview: function() {
     console.log('router.overview');
+    if (loader === 0) {
+      console.log('is gelijk');
+      render.loader();
+    }
     api.get('overview')
   },
   detail: function(){routie(':name', name => {
@@ -118,7 +123,15 @@ var api = {
 
 //RENDER
 var render = {
-    overview: function(data) {
+  loader: function(response) {
+    console.log('render.loader');
+    var load = document.getElementById("loading");
+    load.innerHTML +=  `
+                          <img src="pokeball2.gif" alt="pokeball loader">
+                          `;
+
+  },
+  overview: function(data) {
         console.log('render.overview');
         var element = document.getElementById("wrapper");
 

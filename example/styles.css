@@ -257,3 +257,14 @@ padding: 0 3rem 0 3rem;
   cursor: pointer;
   text-decoration: none;
 }
+
+.loading{
+  display: grid;
+  justify-items: center;
+  height: 100vh;
+  background-color: white;
+}
+
+.loading img{
+      width: 12rem;
+}
