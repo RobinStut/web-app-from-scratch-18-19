@@ -1,35 +1,79 @@
 var storedData = [];
+var localData;
 var loader = 0;
-
+// localStorage.clear()
+// console.log((window.location.pathname.length)>((window.location.pathname.length) + 2));
+// console.log(((window.location.pathname.length) + 2));
+// console.log(window.location.pathname.length);
 var router = {
-  overview: function() {
-    console.log('router.overview');
-    if (loader === 0) {
-      console.log('is gelijk');
-      render.loader();
+  handle: function(){
+    if ((window.location.pathname.length)<((window.location.pathname.length) + 2)) {
+      console.log('detailpage handler');
+      router.detail();
     }
+    else {
+      console.log('overzichtspage handler');
+      router.overview();
+    }
+  },
+  overview: function(){routie('', hash => { {
+    console.log(' ');
+    console.log('router.overview');
+    // console.log(window.location.pathname.length);
+    if (localStorage.length !== 0) {
+      render.loader();
+      // router.handle();
+      api.local();
+      // console.log(localData);
+      // localData = JSON.parse(localStorage.getItem('data'));
+      // console.log(localStorage);
+      console.log('Local store heeft data');
+      api.local();
+      render.overview();
+    }
+    else if(localStorage.length === 0){
+    console.log('geen locale storage dus ophalen die hap');
+    console.log(localData);
+    render.loader();
     api.get('overview')
+    }
+  }})
   },
   detail: function(){routie(':name', name => {
-    // console.log(x);
-    console.log('router.detail');
-    console.log(name);
-    render.detail(name);
+    // console.log(window.location.pathname);
+    console.log(' ');
+    if (localStorage.length === 0) {
+      console.log('localstorage is leeg');
+      render.loader();
+      api.get('overview')
+    }
+    else if (localStorage.length !== 0) {
+      console.log('storage is gevuld');
+      console.log('router.detail');
+      console.log(name);
+      render.loader();
+      if (localData === undefined) {
+        console.log('localData is leeg');
+        render.loader();
+        api.parseLocal();
+        render.detail(name);
+      }
+      else if (localData !== undefined) {
+        // console.log(localData);
+        console.log('localdata is niet leeg');
+        render.detail(name);
+      }
+      }
+      // console.log(x);
+
   })
-},
-clearDetail: function(){routie(':#', hash => {
-  // console.log(x);
-  console.log('router.clearDetail');
-  console.log(hash);
-  // render.detail(name);
-})
 },
 };
 
 //API
 var api = {
   get: function(route) {
-    var url = "https://pokeapi.co/api/v2/pokemon/?limit=151&offset=0";
+    var url = "https://pokeapi.co/api/v2/pokemon/?limit=30&offset=0";
     var api1Results
 
     console.log('api.get');
@@ -45,12 +89,6 @@ var api = {
       // return data;
     }
     apiRequest()
-    // .then(data =>{
-    //
-    //   console.log('then');
-    //
-    //
-    // } );
 
   },
   filter: function(data) {
@@ -82,7 +120,8 @@ var api = {
         console.log(loopCount);
         if (loopCount === arrayLength) {
           console.log('forEach is klaar');
-          render.overview();
+          api.local();
+          render.overview(localData);
           console.log('overview klaar');
           router.detail(storedData.name);
         }
@@ -116,8 +155,18 @@ var api = {
     console.log('api.store');
     // console.log(response);
     Array.prototype.push.apply(storedData, response);
-    // console.log(storedData);
+    // console.log(localStorage.storedData);
+    // // console.log(storedData);
 
+  },
+  local: function(response) {
+    if (localStorage.length === 0) {
+      localStorage.setItem('data', JSON.stringify(storedData));
+    }
+    api.parseLocal();
+  },
+  parseLocal: function(response) {
+      localData = JSON.parse(localStorage.getItem('data'));
   },
 };
 
@@ -132,10 +181,14 @@ var render = {
 
   },
   overview: function(data) {
-        console.log('render.overview');
-        var element = document.getElementById("wrapper");
 
-        storedData.forEach(function(item){
+        console.log('render.overview');
+        // console.log(localData);
+        var element = document.getElementById("wrapper");
+        document.getElementById("loading").innerHTML = " ";
+        document.getElementById("detail").innerHTML = " ";
+                localData.forEach(function(item){
+          // storedData.forEach(function(item){
           // console.log(item);
           element.innerHTML +=  `
                                 <div class="pokemoncard">
@@ -149,17 +202,18 @@ var render = {
   detail: function(data) {
     var equalTo = [];
     var element = document.getElementById("detail");
-    var exit = document.getElementById("exit");
+    document.getElementById("loading").innerHTML = " ";
+    document.getElementById("wrapper").innerHTML = " ";
     console.log('render.detail');
     console.log(data);
 
     function findEqual(detail) {
     return detail.name === data;
     }
-
-    equalTo = (storedData.find(findEqual));
+    // console.log(localData);
+    // console.log(localStorage);
+    equalTo = (localData.find(findEqual));
     console.log(equalTo);
-
     element.innerHTML += `
                           <div class="detailcard">
                           <p class="pokeCP">CP <span>${equalTo.xp}</span></p>
@@ -182,12 +236,15 @@ var render = {
                           `;
 
   console.log('eind van render.detail');
+  var exit = document.getElementById("exit");
   exit.onclick = function(){
+     console.log(' ');
      console.log('exit geklikt');
+     render.overview();
    };
 
 
   }
 };
 
-router.overview();
+router.handle();

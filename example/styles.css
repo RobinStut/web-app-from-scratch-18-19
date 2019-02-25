@@ -1,7 +1,8 @@
 body {
   font-family: 'Noto Sans', sans-serif;
   margin: 0 .5rem;
-  height: 100%;
+  height: auto;
+  width: calc(100vw - 1rem);
   background: linear-gradient(to bottom, #92d2ac 0%, #66b6b6 100%);
   background-repeat: no-repeat;
 }
@@ -40,6 +41,11 @@ img {
   grid-template-columns: 33% 33% 33%;
   justify-content: center;
   background-color: white;
+}
+
+.detail{
+  /* height: 100vh;
+  width: calc(100vw - 1rem); */
 }
 
 .detailcard {
@@ -262,7 +268,10 @@ padding: 0 3rem 0 3rem;
   display: grid;
   justify-items: center;
   height: 100vh;
+  width: calc(100vw - 1rem);
   background-color: white;
+  position: fixed;
+  background: linear-gradient(to bottom, #92d2ac 0%, #66b6b6 100%);
 }
 
 .loading img{
