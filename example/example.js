@@ -2,12 +2,10 @@ var storedData = [];
 var localData;
 var loader = 0;
 // localStorage.clear()
-// console.log((window.location.pathname.length)>((window.location.pathname.length) + 2));
-// console.log(((window.location.pathname.length) + 2));
-// console.log(window.location.pathname.length);
+
 var router = {
   handle: function(){
-    if ((window.location.pathname.length)<((window.location.pathname.length) + 2)) {
+    if ((window.location.hash.length) > 2) {
       console.log('detailpage handler');
       router.detail();
     }
@@ -31,7 +29,7 @@ var router = {
       api.local();
       render.overview();
     }
-    else if(localStorage.length === 0){
+    else {
     console.log('geen locale storage dus ophalen die hap');
     console.log(localData);
     render.loader();
