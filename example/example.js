@@ -1,7 +1,7 @@
 var storedData = [];
 var localData;
 var loader = 0;
-// localStorage.clear()
+localStorage.clear()
 
 var router = {
   handle: function(){
@@ -21,11 +21,12 @@ var router = {
     if (localStorage.length !== 0) {
       render.loader();
       // router.handle();
-      api.local();
+      // api.local();
       // console.log(localData);
       // localData = JSON.parse(localStorage.getItem('data'));
       // console.log(localStorage);
       console.log('Local store heeft data');
+
       api.local();
       render.overview();
     }
@@ -34,6 +35,7 @@ var router = {
     console.log(localData);
     render.loader();
     api.get('overview')
+
     }
   }})
   },
