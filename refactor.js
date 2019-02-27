@@ -193,8 +193,8 @@ var render = {
         document.getElementById("loading").innerHTML = " ";
         document.getElementById("detail").innerHTML = " ";
                 localData.forEach(function(item){
-                  console.log(item);
-                  console.log('regel 197');
+                  // console.log(item);
+                  // console.log('regel 197');
           // storedData.forEach(function(item){
           // console.log(item);
           element.innerHTML +=  `
