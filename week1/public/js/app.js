@@ -1,59 +1,88 @@
+var fixedLink = 'https://pokeapi.co/api/v2/pokemon/?limit=151&offset=0'
 var link = 'https://pokeapi.co/api/v2/pokemon'
-var link2 = 'https://pokeapi.co/api/v2/pokemon'
-
-// var i = 0
-// met behulp van bron: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests
-var requestAPI = new XMLHttpRequest();
 var requestPokemon = new XMLHttpRequest();
-requestAPI.open("GET", link, true);
-requestAPI.onload = async function(e) {
-  if (requestAPI.status === 200) {
-    console.log("Juiste status + tekst uitprinten");
-    var pokeAPI = JSON.parse(requestAPI.responseText)
-    //console.log(pokeAPI)
-    var pokemonArray = []
+var pokeAPI = '';
+var pokeAPI2 = '';
 
-    // console.log(pokeAPI)
-    // Loopt door object heen
-    for (let i = 0; i < pokeAPI.results.length; i++) {
-  
-      let pokemonDetails = await getData(i);
+// met behulp van bron: https://codepen.io/joostf/pen/OQxpxx?editors=1010
 
-      console.log(pokemonDetails)
-      console.log(pokemonDetails.sprites.front_default)
+var loadData = new Promise(function(resolve, reject){
+    var request = new XMLHttpRequest();
+    request.open('GET', fixedLink, true)
 
-      element = document.getElementById("wrapper");
-      element.innerHTML +=
-
-      `
-      <div class="pokemoncard" data-index=${i}>
-      <img url"${pokemonDetails.sprites.front_default}">
-      <p>${pokeAPI.results[i].name}
-      https://pokeapi.co/api/v2/pokemon/${pokeAPI.results[i].name}/</p>
-      <a href="${pokeAPI.results[i].url}">${pokeAPI.results[i].name}</a>
-      </div>
-      `
-    }
+    request.onload = () => {
+      if (request.status >= 200 && request.status < 400) {
+       // Success!
+        pokeAPI = JSON.parse(request.responseText);
+        resolve(pokeAPI);
+        console.log('gelukt');
 
 
+        //     // Start of loop
+        pokeAPI.results.forEach(function(item) {
 
-  } else {
-    console.error(requestAPI.statusText);
+// Begin nieuwe API
+
+          var loadData2 = new Promise(function(resolve2, reject2){
+              var request2 = new XMLHttpRequest();
+              request2.open('GET', (link+"/"+item.name), true)
+
+              request2.onload = () => {
+                if (request2.status >= 200 && request2.status < 400) {
+                 // Success!
+                  pokeAPI2 = JSON.parse(request2.responseText);
+                  resolve(pokeAPI2);
+                  console.log(link+"/"+item.name);
+                  // console.log(request2.responseText.sprites);
+
+                  console.log(pokeAPI2);
+                  var element = document.getElementById("wrapper");
+                  element.innerHTML +=
+                  `
+                  <div class="pokemoncard">
+                  <p class="pokeCP">CP <span>${pokeAPI2.base_experience}</span></p>
+                  <img src="${pokeAPI2.sprites.front_default}" alt="">
+                  <p class="pokeName">${toCap(item.name)}</p>
+                  </div>
+
+                  `
+                  }
+                else
+                  {
+                 // We reached our target server, but it returned an error
+                  reject(error);
+                }
+              };
+
+              request2.onerror = () => {
+                // There was a connection error of some sort
+              };
+
+              request2.send();
+            });
+
+// einde nieuwe api
+
+
+
+
+        })
+
+      } else {
+       // We reached our target server, but it returned an error
+        reject(error);
+      }
+    };
+
+    request.onerror = () => {
+      // There was a connection error of some sort
+    };
+
+    request.send();
+  });
+
+
+  function toCap(string)
+  {
+      return string.charAt(0).toUpperCase() + string.slice(1);
   }
-};
-requestAPI.onerror = function(e) {
-  console.error(requestAPI.statusText);
-};
-requestAPI.send(null);
-
-function getData(i) {
-  return new Promise((resolve, reject) => {
-    requestPokemon.open("GET", `https://pokeapi.co/api/v2/pokemon/${i+1}`, true)
-    requestPokemon.onload = function (e) {
-      // console.log(requestPokemon)
-      resolve(JSON.parse(requestPokemon.responseText))
-
-    }
-    requestPokemon.send()
-  })
-}
