@@ -1,10 +1,21 @@
 var storedData = [];
 var localData;
 var loader = 0;
-localStorage.clear()
+
+
+var app = {
+  init: function() {
+    this.development();
+    router.handle();
+  },
+  development:function(){
+    // localStorage.clear();
+  }
+}
 
 var router = {
   handle: function(){
+
     if ((window.location.hash.length) > 2) {
       console.log('detailpage handler');
       router.detail();
@@ -14,38 +25,35 @@ var router = {
       router.overview();
     }
   },
-  overview: function(){routie('', hash => { {
+  overview: function(){
+    routie('', hash => { {
+
     console.log(' ');
     console.log('router.overview');
-    // console.log(window.location.pathname.length);
-    if (localStorage.length !== 0) {
+    if (localStorage.length === 1) {
       render.loader();
-      // router.handle();
-      // api.local();
-      // console.log(localData);
-      // localData = JSON.parse(localStorage.getItem('data'));
-      // console.log(localStorage);
       console.log('Local store heeft data');
-
-      api.local();
+      localHandle.local();
       render.overview();
     }
     else {
     console.log('geen locale storage dus ophalen die hap');
     console.log(localData);
     render.loader();
-    api.get('overview')
-
+    api.getOverview('overview');
+    render.overview();
     }
   }})
   },
-  detail: function(){routie(':name', name => {
+  detail: function(){
+    routie(':name', name => {
     // console.log(window.location.pathname);
+    console.log('detail aangeroepen');
     console.log(' ');
     if (localStorage.length === 0) {
       console.log('localstorage is leeg');
       render.loader();
-      api.get('overview')
+      api.getOverview('overview')
     }
     else if (localStorage.length !== 0) {
       console.log('storage is gevuld');
@@ -55,28 +63,26 @@ var router = {
       if (localData === undefined) {
         console.log('localData is leeg');
         render.loader();
-        api.parseLocal();
+        localHandle.parseLocal();
         render.detail(name);
       }
-      else if (localData !== undefined) {
+      else {
         // console.log(localData);
         console.log('localdata is niet leeg');
+
         render.detail(name);
       }
       }
       // console.log(x);
-
   })
 },
 };
 
-//API
 var api = {
-  get: function(route) {
+  getOverview: function(route) {
     var url = "https://pokeapi.co/api/v2/pokemon/?limit=30&offset=0";
-    var api1Results
 
-    console.log('api.get');
+    console.log('api.getOverview');
     console.log('url ' + URL);
 
     async function apiRequest() {
@@ -85,14 +91,43 @@ var api = {
 
       console.log(data);
       console.log('async apiRequest');
-      api.filter(data);
+      dataHandle.filterOverview(data);
       // return data;
     }
     apiRequest()
 
   },
-  filter: function(data) {
-    console.log('api.filter');
+  getDetail: function(response) {
+    var arrayLength = response.length;
+    var loopCount = 0;
+    console.log('api.getDetail');
+    console.log(loopCount);
+
+    response.forEach(function(item) {
+      async function apiRequest() {
+        let response = await fetch(item.url);
+        let data = await response.json()
+        console.log('async apiRequest2');
+        dataHandle.filterDetail(data);
+        loopCount++;
+        console.log(loopCount);
+
+        if (loopCount === arrayLength) {
+          console.log('forEach is klaar');
+          localHandle.local();
+          render.overview(localData);
+          console.log('overview klaar');
+          router.detail(storedData.name);
+        }
+      }
+      apiRequest()
+    });
+  },
+};
+
+var dataHandle = {
+  filterOverview: function(data) {
+    console.log('api.filterOverview');
     // console.log(data.results);
     filteredData = [];
     data.results.forEach(function(data) {
@@ -102,38 +137,11 @@ var api = {
     })
     // console.log(filteredData);
     console.log('klaar met eerste filter');
-    this.nextGet(filteredData)
+    api.getDetail(filteredData)
   },
-  nextGet: function(response) {
-    var arrayLength = response.length;
-    var loopCount = 0;
-    console.log('api.nextGet');
-    console.log(loopCount);
-
-    response.forEach(function(item) {
-      async function apiRequest() {
-        let response = await fetch(item.url);
-        let data = await response.json()
-        console.log('async apiRequest2');
-        api.nextFilter(data);
-        loopCount++;
-        console.log(loopCount);
-        if (loopCount === arrayLength) {
-          console.log('forEach is klaar');
-          api.local();
-          render.overview(localData);
-          console.log('overview klaar');
-          router.detail(storedData.name);
-        }
-        // return data;
-      }
-      apiRequest()
-    });
-  },
-  nextFilter: function(data) {
-    console.log('api.nextFilter');
+  filterDetail: function(data) {
+    console.log('api.filterDetail');
     console.log(data.name);
-    // console.log(data.results);
     filteredData = [];
     filteredData.push({
       name: data.name,
@@ -147,30 +155,27 @@ var api = {
       img: data.sprites,
 
     });
-    // console.log(filteredData);
-    console.log('einde api.nextFilter');
-    api.store(filteredData)
+    console.log('einde api.filterDetail');
+    this.store(filteredData)
   },
   store: function(response) {
-    console.log('api.store');
-    // console.log(response);
+    console.log('dataHandle.store');
     Array.prototype.push.apply(storedData, response);
-    // console.log(localStorage.storedData);
-    // // console.log(storedData);
-
   },
-  local: function(response) {
+}
+
+var localHandle = {
+  local: function() {
     if (localStorage.length === 0) {
       localStorage.setItem('data', JSON.stringify(storedData));
     }
-    api.parseLocal();
+    this.parseLocal();
   },
-  parseLocal: function(response) {
+  parseLocal: function() {
       localData = JSON.parse(localStorage.getItem('data'));
   },
-};
+}
 
-//RENDER
 var render = {
   loader: function(response) {
     console.log('render.loader');
@@ -236,15 +241,17 @@ var render = {
                           `;
 
   console.log('eind van render.detail');
+  console.log(localStorage);
   var exit = document.getElementById("exit");
   exit.onclick = function(){
      console.log(' ');
      console.log('exit geklikt');
-     render.overview();
+     router.overview();
    };
 
 
   }
 };
 
-router.handle();
+
+app.init();
