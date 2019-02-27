@@ -2,7 +2,6 @@ var storedData = [];
 var localData;
 var loader = 0;
 
-
 var app = {
   init: function() {
     this.development();
@@ -27,7 +26,7 @@ var router = {
   },
   overview: function(){
     routie('', hash => { {
-
+    console.log('pagina gerefreshed, opnieuw in routie');
     console.log(' ');
     console.log('router.overview');
     if (localStorage.length === 1) {
@@ -40,8 +39,8 @@ var router = {
     console.log('geen locale storage dus ophalen die hap');
     console.log(localData);
     render.loader();
-    api.getOverview('overview');
-    render.overview();
+    api.getOverview('overview')
+
     }
   }})
   },
@@ -55,7 +54,7 @@ var router = {
       render.loader();
       api.getOverview('overview')
     }
-    else if (localStorage.length !== 0) {
+    else {
       console.log('storage is gevuld');
       console.log('router.detail');
       console.log(name);
@@ -69,7 +68,6 @@ var router = {
       else {
         // console.log(localData);
         console.log('localdata is niet leeg');
-
         render.detail(name);
       }
       }
@@ -102,8 +100,8 @@ var api = {
     var loopCount = 0;
     console.log('api.getDetail');
     console.log(loopCount);
-
-    response.forEach(function(item) {
+console.log(response);
+    response.map(function(item) {
       async function apiRequest() {
         let response = await fetch(item.url);
         let data = await response.json()
@@ -139,8 +137,10 @@ var dataHandle = {
     console.log('klaar met eerste filter');
     api.getDetail(filteredData)
   },
+
   filterDetail: function(data) {
     console.log('api.filterDetail');
+    console.log(data);
     console.log(data.name);
     filteredData = [];
     filteredData.push({
@@ -153,10 +153,10 @@ var dataHandle = {
       stats: data.stats,
       type: data.types[0].type.name,
       img: data.sprites,
-
     });
+    filteredData2 = [];
     console.log('einde api.filterDetail');
-    this.store(filteredData)
+    this.store(filteredData);
   },
   store: function(response) {
     console.log('dataHandle.store');
@@ -188,11 +188,13 @@ var render = {
   overview: function(data) {
 
         console.log('render.overview');
-        // console.log(localData);
+        console.log(localData);
         var element = document.getElementById("wrapper");
         document.getElementById("loading").innerHTML = " ";
         document.getElementById("detail").innerHTML = " ";
                 localData.forEach(function(item){
+                  console.log(item);
+                  console.log('regel 197');
           // storedData.forEach(function(item){
           // console.log(item);
           element.innerHTML +=  `
@@ -240,18 +242,24 @@ var render = {
                           </div>
                           `;
 
-  console.log('eind van render.detail');
   console.log(localStorage);
+  console.log(localData);
+  console.log(window.location.hash);
+  console.log('eind van render.detail');
   var exit = document.getElementById("exit");
   exit.onclick = function(){
+    if (localData !== undefined) {
+      console.log('niet undefined');
+    }
      console.log(' ');
      console.log('exit geklikt');
-     router.overview();
+     console.log(localStorage.length);
+       render.overview();
+
    };
 
 
   }
 };
-
 
 app.init();
