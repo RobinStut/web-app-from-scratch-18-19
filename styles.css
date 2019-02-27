@@ -1,0 +1,279 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+  margin: 0 .5rem;
+  height: auto;
+  width: calc(100vw - 1rem);
+  background: linear-gradient(to bottom, #92d2ac 0%, #66b6b6 100%);
+  background-repeat: no-repeat;
+}
+
+.pokemoncard {
+  /* border: 1px solid black; */
+  display: grid;
+  justify-content: center;
+}
+
+.pokemoncard a {
+  text-align: center;
+  text-decoration: none;
+}
+
+.pokeCP {
+  color: #99a9aa;
+  font-size: .75rem;
+  text-align: center;
+}
+
+.pokeName, .pokeCP>span {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #4c686b;
+}
+
+img {
+  min-width: 30px;
+  min-height: 30px;
+  margin: auto;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  justify-content: center;
+  background-color: white;
+}
+
+.detail{
+  /* height: 100vh;
+  width: calc(100vw - 1rem); */
+}
+
+.detailcard {
+  background: linear-gradient(to bottom, #92d2ac 0%, #66b6b6 100%);
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  display: grid;
+  justify-content: center;
+  width: calc(100% - 1rem);
+}
+
+.detailcard img {
+  width: 300px;
+  height: 300px;
+  /* border: 1px solid; */
+  position: absolute;
+  top: 2rem;
+  left: calc(50% - 150px);
+}
+
+.detailcard .pokeCP {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.detailcard .pokeCP span {
+  color: white;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.detailcard .statistics1 {
+  margin-top: 12rem;
+  background-color: white;
+  width: calc(100vw - 1rem);
+  -webkit-border-radius: 15px 15px 0px 0px;
+  -moz-border-radius: 15px 15px 0px 0px;
+  border-radius: 15px 15px 0px 0px;
+  display: grid;
+  justify-items: center;
+}
+
+.detailcard .statistics1 .pokeName {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 0;
+}
+
+.detailcard .statistics1 progress[value] {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 5px;
+  width: 200px;
+  height: .5rem;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+}
+
+.detailcard .statistics1 progress[value]::-webkit-progress-value {
+  background-color: white;
+  background-image:
+    -webkit-linear-gradient(left, rgba(143, 234, 186, 1) 0%, rgba(143, 234, 186, 1) 100%);
+  /* border-radius: 10px; */
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
+.detailcard .statistics2{
+  display: grid;
+grid-template-columns: 33% 33% 33%;
+justify-items: center;
+background-color: white;
+padding-top: 1.5rem;
+padding: 1.5rem 0 .5rem 0;
+border: 1px solid #99a9aa;
+border-width: 0 0 1px 0;
+}
+
+
+.detailcard .statistics2 p{
+  color: #99a9aa;
+  font-size: .75rem;
+}
+
+.detailcard .statistics2 strong{
+color:#4c686b;
+line-height: 2rem;
+}
+
+.detailcard .statistics2 div{
+display: grid;
+justify-items: center;
+}
+
+.detailcard .statistics2 section{
+width: 2rem;
+height: 2rem;
+text-align: center;
+line-height: 2rem;
+border-radius: 3rem;
+color: white;
+}
+
+.detailcard .statistics2 .type{
+  width: 100%;
+  border: .5px solid #99a9aa;
+  border-width: 0 1px 0 1px;
+}
+
+.type .flying{
+  background-color: lightblue;
+}
+
+.type .water{
+  background-color: dodgerblue;
+}
+
+.type .bug{
+  background-color: yellowgreen;
+}
+
+.type .poison{
+  background-color: forestgreen;
+}
+
+.type .fire{
+  background-color: orangered;
+}
+
+.type .normal{
+  background-color: grey;
+}
+
+.type .electric{
+  background-color: orange;
+}
+
+.type .ground{
+  background-color: saddlebrown;
+}
+
+.type .fairy{
+  background-color: lightpink;
+}
+
+.type .fighting{
+  background-color: firebrick;
+}
+
+.type .psychic{
+  background-color: mediumorchid;
+}
+
+.type .grass{
+  background-color: springgreen;
+}
+
+.type .steel{
+  background-color: steelblue;
+}
+
+.type .ice{
+  background-color: lightblue;
+}
+
+.type .dragon{
+  background-color: cornflowerblue;
+}
+
+.type .rock{
+  background-color: sandybrown;
+}
+
+
+.detailcard .statistics3{
+  display: grid;
+  background-color: white;
+  padding-bottom: 100vw;
+}
+
+.detailcard .statistics3 section{
+display: flex;
+justify-content: space-between;
+padding: 0 3rem 0 3rem;
+/* background-color: white; */
+}
+
+.detailcard .statistics3 section strong{
+    line-height: 3rem;
+    color: #4c686b;
+    font-size: 1rem;
+}
+
+.detailcard .statistics3 section p{
+  line-height: 3rem;
+  margin: 0;
+  color: #99a9aa;
+  font-size: .75rem;
+}
+
+.exit{
+  position: fixed;
+  bottom: 1rem;
+  left: calc(50% - 20px);
+  background-color: #418493;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  border-radius: 35px;
+  border: 3px solid #8be7c8;
+  color: #8be7c8;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.loading{
+  display: grid;
+  justify-items: center;
+  height: 100vh;
+  width: calc(100vw - 1rem);
+  background-color: white;
+  position: fixed;
+  background: linear-gradient(to bottom, #92d2ac 0%, #66b6b6 100%);
+}
+
+.loading img{
+      width: 12rem;
+}
