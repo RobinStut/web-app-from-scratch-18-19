@@ -4,14 +4,15 @@
 
 The API I’m using contains all the Pokémon names existing and an URL to the detail page. Every detail page needs his own API request and the data contains all the information about the Pokémon and in which games it participated. There is a restriction on the API which forces me to only load 20 Pokemon’s at a time. 
 
-<details>
-<summary>Summary text.</summary>
-![screenshot](screenshot.png)
-</details>
+### `Early state prototype` (XHR)
 
-![screenshot](screenshot.png)
+![screenshot](screenshot1.png)
 
-Visit the [website](https://robinstut.github.io/web-app-from-scratch-18-19/week1/)!
+### `Final state prototype` (XHR)
+
+![screenshot](screenshot2.png)
+
+Visit the [website](https://robinstut.github.io/web-app-from-scratch-18-19/)!
 
 
 ## How to install
