@@ -56,27 +56,13 @@ Like I said earlier, the API restricts me from retrieving more than 20 results, 
 ## Interaction diagram
 ![screenshot](interaction.png)
 
-## About Web App From Scratch
+## To Do
+- [x] Local storage
+- [x] Using Object Literals
+- [x] Routing
+- [x] API request with Async
+- [ ] Modules
 
-I'm working on this application during the Web App From Scratch course. During this course we focus on building a native HTML, CSS & JavaScript application, so no frameworks or unnecessary libraries.
-
-### Schedule 
-
-**Week 1** Hello API 🐒
-
-- [x] In week 1 we get used to pick up data from an API and render that in HTML.
-
-[Repository](https://github.com/RobinStut/web-app-from-scratch-18-19/blob/master/week1/public/js/app.js)
-
-**Week 2** - Design and Refactor 🛠
-
-- [ ] In week 2 we try to make breakdowns in the web app. Also we will be adding routes and multiple states. A detail page will be rendered as well.
-
-[Repository]()
-
-**Week 3**- Wrapping up 🎁
-
-- [ ] In week 3 we try to manipulating data, Splitting code into modules and reflect with each other  on the end results
 
 [Repository]()
 
