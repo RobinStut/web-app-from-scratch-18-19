@@ -1,8 +1,5 @@
-var storedData = [];
-var localData;
-var loader = 0;
-
-
+// import * as app from 'app.js'
+// console.log(app)
 
 var app = {
   init: function() {
@@ -12,7 +9,7 @@ var app = {
   development:function(){
     // code kapot op refresh zonder deze regel. Big Thanks to Janno Kapritsias https://github.com/TuriGuilano
     window.addEventListener('hashchange', function() { router.handle() });
-    // localStorage.clear();
+    localStorage.clear();
   }
 }
 
@@ -41,7 +38,7 @@ var router = {
     }
     else {
     console.log('geen locale storage dus ophalen die hap');
-    console.log(localData);
+    console.log(localHandle.localValues.localData);
     render.loader();
     api.getOverview('overview')
 
@@ -63,7 +60,7 @@ var router = {
       console.log('router.detail');
       console.log(name);
       render.loader();
-      if (localData === undefined) {
+      if (localHandle.localValues.localData === undefined) {
         console.log('localData is leeg');
         render.loader();
         localHandle.parseLocal();
@@ -117,9 +114,8 @@ console.log(response);
         if (loopCount === arrayLength) {
           console.log('forEach is klaar');
           localHandle.local();
-          render.overview(localData);
+          render.overview(localHandle.localValues.localData);
           console.log('overview klaar');
-          router.detail(storedData.name);
         }
       }
       apiRequest()
@@ -128,6 +124,9 @@ console.log(response);
 };
 
 var dataHandle = {
+  dataValues:{
+    storedData: []
+  },
   filterOverview: function(data) {
     console.log('api.filterOverview');
     // console.log(data.results);
@@ -163,20 +162,44 @@ var dataHandle = {
   },
   store: function(response) {
     console.log('dataHandle.store');
-    Array.prototype.push.apply(storedData, response);
+    Array.prototype.push.apply(this.dataValues.storedData, response);
   },
 }
 
 var localHandle = {
+  localValues:{
+    localData:'',
+  },
   local: function() {
     if (localStorage.length === 0) {
-      localStorage.setItem('data', JSON.stringify(storedData));
+      localStorage.setItem('data', JSON.stringify(dataHandle.dataValues.storedData));
     }
     this.parseLocal();
   },
   parseLocal: function() {
-      localData = JSON.parse(localStorage.getItem('data'));
+    console.log(this.localValues.localData);
+      var parsedLocalData = JSON.parse(localStorage.getItem('data'));
+      // this.localValues.localData = parsedLocalData
+      console.log(localHandle);
+      this.sortLocal(parsedLocalData);
   },
+  sortLocal:function (data){
+
+    function compare(a, b) {
+      var idA = a.id;
+      var idB = b.id;
+
+      var comparison = 0;
+      if (idA > idB) {
+        comparison = 1;
+      } else if (idA < idB) {
+        comparison = -1;
+      }
+      return comparison;
+    }
+    this.localValues.localData = data.sort(compare);
+  },
+
 }
 
 var render = {
@@ -191,14 +214,14 @@ var render = {
   overview: function(data) {
 
         console.log('render.overview');
-        console.log(localData);
+        // console.log(localHandle.localValues.localData);
         var element = document.getElementById("wrapper");
         document.getElementById("loading").innerHTML = " ";
         document.getElementById("detail").innerHTML = " ";
-                localData.forEach(function(item){
+                localHandle.localValues.localData.forEach(function(item){
                   // console.log(item);
                   // console.log('regel 197');
-          // storedData.forEach(function(item){
+
           // console.log(item);
           element.innerHTML +=  `
                                 <div class="pokemoncard">
@@ -222,7 +245,7 @@ var render = {
     }
     // console.log(localData);
     // console.log(localStorage);
-    equalTo = (localData.find(findEqual));
+    equalTo = (localHandle.localValues.localData.find(findEqual));
     console.log(equalTo);
     element.innerHTML += `
                           <div class="detailcard">
@@ -246,17 +269,18 @@ var render = {
                           `;
 
   console.log(localStorage);
-  console.log(localData);
+  console.log(localHandle.localValues.localData);
   console.log(window.location.hash);
   console.log('eind van render.detail');
   var exit = document.getElementById("exit");
   exit.onclick = function(){
-    if (localData !== undefined) {
+    if (localHandle.localValues.localData !== undefined) {
       console.log('niet undefined');
     }
      console.log(' ');
      console.log('exit geklikt');
      console.log(localStorage.length);
+       render.loader();
        render.overview();
 
    };
