@@ -6,7 +6,7 @@ The API I’m using contains all the Pokémon names existing and an URL to the d
 
 <details>
 <summary>Summary text.</summary>
-<code style="white-space:nowrap;">![screenshot](screenshot.png)</code>
+![screenshot](screenshot.png)
 </details>
 
 
