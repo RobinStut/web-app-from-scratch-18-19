@@ -9,7 +9,7 @@ The API I’m using contains all the Pokémon names existing and an URL to the d
 ![screenshot](screenshot.png)
 </details>
 
-
+![screenshot](screenshot.png)
 
 Visit the [website](https://robinstut.github.io/web-app-from-scratch-18-19/week1/)!
 
