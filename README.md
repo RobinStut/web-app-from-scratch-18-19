@@ -12,6 +12,10 @@ The API I’m using contains all the Pokémon names existing and an URL to the d
 
 ![screenshot](screenshot2.png)
 
+### Final state detail
+
+![screenshot](detail.png)
+
 Visit the [website](https://robinstut.github.io/web-app-from-scratch-18-19/)!
 
 
@@ -45,6 +49,12 @@ The result I get is:
 ```
 
 Like I said earlier, the API restricts me from retrieving more than 20 results, but can be bypassed by adapting the API link. The data I use for now is very small, but will be extended by some data from every detail page.
+
+## Actor diagram
+![screenshot](actor.png)
+
+## Interaction diagram
+![screenshot](interaction.png)
 
 ## About Web App From Scratch
 
