@@ -2,7 +2,7 @@
 
 # Pokémon API
 
-The API I’m using contains all the Pokémon names existing and an URL to the detail page. Every detail page needs his own API request and the data contains all the information about the Pokémon and in which games it participated. There is a restriction on the API which forces me to only load 20 Pokemon’s at a time. 
+The API I’m using contains all the Pokémon names existing and an URL to the detail page. Every detail page needs his own API request and the data contains all the information about the Pokémon and in which games it participated. There is a restriction on the API which forces me to only load 20 Pokemon’s at a time.
 
 ### Early state prototype
 
@@ -11,6 +11,10 @@ The API I’m using contains all the Pokémon names existing and an URL to the d
 ### Final state prototype
 
 ![screenshot](screenshot2.png)
+
+### Final state detail
+
+![screenshot](detail.png)
 
 Visit the [website](https://robinstut.github.io/web-app-from-scratch-18-19/)!
 
@@ -23,7 +27,7 @@ git clone https://github.com/RobinStut/web-app-from-scratch-18-19.git
 cd web-app-from-scratch-18-19/week1
 ```
 
-## The data itself 
+## The data itself
 
 The data will be received by a request to the API. The request method I’m using at the moment is a 'XMLHttpRequest', which I will adapt to an 'async/await' or 'promise' based request later on.
 
@@ -36,7 +40,7 @@ Source: [developer.mozilla](https://developer.mozilla.org/en-US/docs/Web/API/XML
 
 ### API Data
 
-The data I get from the API request can be seen on this link: ‘https://pokeapi.co/api/v2/pokemon' and a detail page on this link:https://pokeapi.co/api/v2/pokemon/bulbasaur/ 
+The data I get from the API request can be seen on this link: ‘https://pokeapi.co/api/v2/pokemon' and a detail page on this link:https://pokeapi.co/api/v2/pokemon/bulbasaur/
 
 The result I get is:
 
@@ -46,28 +50,18 @@ The result I get is:
 
 Like I said earlier, the API restricts me from retrieving more than 20 results, but can be bypassed by adapting the API link. The data I use for now is very small, but will be extended by some data from every detail page.
 
-## About Web App From Scratch
+## Actor diagram
+![screenshot](actor.png)
 
-I'm working on this application during the Web App From Scratch course. During this course we focus on building a native HTML, CSS & JavaScript application, so no frameworks or unnecessary libraries.
+## Interaction diagram
+![screenshot](interaction.png)
 
-### Schedule 
+## To Do
+- [x] Local storage
+- [x] Using Object Literals
+- [x] Routing
+- [x] API request with Async
+- [ ] Modules
 
-**Week 1** Hello API 🐒
-
-- [x] In week 1 we get used to pick up data from an API and render that in HTML.
-
-[Repository](https://github.com/RobinStut/web-app-from-scratch-18-19/blob/master/week1/public/js/app.js)
-
-**Week 2** - Design and Refactor 🛠
-
-- [ ] In week 2 we try to make breakdowns in the web app. Also we will be adding routes and multiple states. A detail page will be rendered as well.
 
 [Repository]()
-
-**Week 3**- Wrapping up 🎁
-
-- [ ] In week 3 we try to manipulating data, Splitting code into modules and reflect with each other  on the end results
-
-[Repository]()
-
-
