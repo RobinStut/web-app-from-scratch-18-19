@@ -1,4 +1,5 @@
 console.log('app.js');
+
 var app = {
   init: function() {
     this.development();
@@ -10,3 +11,5 @@ var app = {
     localStorage.clear();
   }
 }
+
+export { app };
