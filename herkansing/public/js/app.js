@@ -7,8 +7,10 @@ var app = {
     localStorage.clear();
     console.log('init');
     if (localStorage.length === 0) {
+      // render.loader();
       api.get();
     } else {
+      render.overview(data.parse('data'))
       console.log('data al opgehaald');
     }
   },
@@ -25,11 +27,12 @@ var api = {
   get: async function() {
     var url = 'https://pokeapi.co/api/v2/pokemon/?limit=30&offset=0';
     var list = await this.call(url);
-    data.store(list);
+    data.store(list.results, 'urlList');
     list.results.map(async function(item) {
       var detailList = await api.detail(item.url);
-      render.overview(data.filter(detailList));
-
+      var filtered = data.filter(detailList);
+      render.overview(filtered);
+      data.merge(filtered);
     });
   },
 
@@ -48,8 +51,8 @@ var api = {
 
 var data = {
 
-  store:function(data){
-    localStorage.setItem('urlList', JSON.stringify(data.results));
+  store:function(data, key){
+    localStorage.setItem(key, JSON.stringify(data));
   },
 
   parse: function(item) {
@@ -58,27 +61,24 @@ var data = {
   },
 
   merge: function(data) {
-    var newData = this.filter(data);
-    var currentData;
     if (localStorage.getItem('data') === null) {
-
-      localStorage.setItem('data', JSON.stringify(newData));
-      currentData = this.parse('data');
-    } else {
-      // console.log(currentData);
-      Array.prototype.push.apply(newData, currentData);
-      localStorage.setItem('data', JSON.stringify(newData));
-      currentData = this.parse('data');
+      console.log('if');
+      this.store(data, 'data');
     }
-
-    return currentData;
+    else {
+      var currentData = this.parse('data');
+      var newData = data;
+      Array.prototype.push.apply(newData, currentData);
+      newData.sort(this.sort);
+      this.store(newData, 'data');
+    }
   },
 
   filter: function(data) {
     var filter = [];
     filter.push({
-      name: data[0].name,
       id: data[0].id,
+      name: data[0].name,
       xp: data[0].base_experience,
       height: data[0].height,
       weight: data[0].weight,
@@ -90,18 +90,8 @@ var data = {
     return filter;
   },
 
-  sort: function (a, b) {
-    // console.log(a);
-      var idA = a.id;
-      var idB = b.id;
-
-      var comparison = 0;
-      if (idA > idB) {
-        comparison = 1;
-      } else if (idA < idB) {
-        comparison = -1;
-      }
-      return comparison;
+  sort: function (dataA, dataB) {
+    return dataA.id - dataB.id;
   },
 };
 
@@ -110,12 +100,8 @@ var data = {
 var render = {
 
   loader: function(id) {
-    console.log('removed ' + id);
-    var render = data.map(function(data) {
-      return `
-          <img src="img/pokeball.gif " alt="loading">
-          `;
-    }).join("");
+    var id = document.getElementById('wrapper');
+    var render = '<img src="img/pokeball.gif " alt="loading">'
     id.insertAdjacentHTML('beforeend', render);
   },
 
