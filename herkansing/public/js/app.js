@@ -9,6 +9,7 @@ var app = {
     if (localStorage.length === 0) {
       // render.loader();
       api.get();
+
     } else {
       render.overview(data.parse('data'))
       console.log('data al opgehaald');
@@ -20,6 +21,44 @@ var app = {
   },
 
 };
+
+
+
+
+
+var router = {
+  handle: function(){
+    if ((window.location.hash.length) >= 2) {
+      console.log('detailpage handler');
+      this.detail();
+    }
+    else {
+      console.log('overzichtspage handler');
+      this.overview();
+    }
+  },
+  overview: function(){
+    routie('', hash => {
+    console.log(' ');
+    console.log('router.overview');
+    app.init();
+  });
+  },
+  detail: function(){
+    routie(':name', name => {
+    console.log(name);
+    console.log(' ');
+
+    console.log(data.find(data.parse(data.getItem('data')), name));
+    console.log('detail aangeroepen');
+    // app.init();
+  });
+},
+};
+
+
+
+
 
 
 var api = {
@@ -50,13 +89,17 @@ var api = {
 };
 
 var data = {
+  getItem:function(key){
+    var get = localStorage.getItem(key);
+    return get
+  },
 
   store:function(data, key){
     localStorage.setItem(key, JSON.stringify(data));
   },
 
   parse: function(item) {
-    var parsed = JSON.parse(localStorage.getItem(item));
+    var parsed = JSON.parse(item);
     return parsed;
   },
 
@@ -66,7 +109,7 @@ var data = {
       this.store(data, 'data');
     }
     else {
-      var currentData = this.parse('data');
+      var currentData = this.parse(this.getItem('data'));
       var newData = data;
       Array.prototype.push.apply(newData, currentData);
       newData.sort(this.sort);
@@ -93,6 +136,13 @@ var data = {
   sort: function (dataA, dataB) {
     return dataA.id - dataB.id;
   },
+
+  find: function (data, name) {
+    console.log(data);
+    console.log(name);
+
+    return data.name === 'name';
+}
 };
 
 
@@ -128,4 +178,4 @@ var render = {
 };
 
 
-app.init();
+router.handle();
