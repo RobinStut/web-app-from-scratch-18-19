@@ -176,7 +176,7 @@ var render = {
       detail.moves[1].version_group_details[0].level_learned_at
     }</strong></p></section>
     </div>
-    <a id="exit" class="exit" href="/">X</a>
+    <a id="exit" class="exit" href="${window.location.pathname}#">X</a>
     </div>`;
 
     contentwrapper.insertAdjacentHTML("beforeend", render);
