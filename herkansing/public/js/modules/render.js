@@ -1,3 +1,5 @@
+import { data } from "./data.js";
+
 export var render = {
   loader: function(id) {
     var id = document.getElementById("wrapper");
@@ -6,12 +8,10 @@ export var render = {
   },
 
   detail: function(name) {
-    console.log(name);
     var contentwrapper = document.getElementById("wrapper");
     var detail = data.getItem("details");
     detail = data.parse(detail);
     detail = detail.find(match);
-    console.log(detail);
 
     function match(detail) {
       return detail.name === name;
@@ -49,7 +49,6 @@ export var render = {
   },
 
   overview: function(data) {
-    console.log(data);
     var contentwrapper = document.getElementById("wrapper");
     let render = data.results
       .map(data => {
@@ -62,19 +61,16 @@ export var render = {
       `;
       })
       .join("");
-    // console.log(render)
     contentwrapper.insertAdjacentHTML("beforeend", render);
   },
 
   fill: function(data) {
-    // console.log(data);
     var pokeId = document.getElementById(data.name);
     var render = `<img src="${data.img}" alt="picture of ${data.name}">`;
     pokeId.insertAdjacentHTML("beforeend", render);
   },
 
   remove: function(id) {
-    console.log("removed " + id);
     document.getElementById(id).innerHTML = "";
   }
 };

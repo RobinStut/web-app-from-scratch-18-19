@@ -14,7 +14,6 @@ export var data = {
   },
 
   filter: function(data) {
-    // console.log(data);
     var filter = [];
     filter.push({
       id: data.id,

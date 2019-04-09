@@ -1,3 +1,5 @@
+import { data } from "./data.js";
+
 export var api = {
   get: async () => {
     var url = "https://pokeapi.co/api/v2/pokemon/?limit=30&offset=0";
@@ -23,7 +25,6 @@ export var api = {
     });
     // bevat alle items nadat alles binnen is
     var allData = await Promise.all(details);
-    // console.log(allData);
     await data.setItem(allData, "details");
     // return eerste fetch
     return await allData;
