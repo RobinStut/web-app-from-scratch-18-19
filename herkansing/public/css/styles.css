@@ -81,6 +81,7 @@ picture img {
   grid-template-columns: 33% 33% 33%;
   justify-content: center;
   background-color: white;
+  min-height: 100vh;
 }
 
 .detail {
