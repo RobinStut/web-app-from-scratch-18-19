@@ -10,7 +10,7 @@ Deze applicatie bevat de data van de [pokéAPI](https://pokeapi.co/). De API bev
 ![detailPage](detailPage.png)
 
 
-Bekijk hier live de[demo](link)!
+Bekijk hier live de [demo](link)!
 
 ## Installeren
 
