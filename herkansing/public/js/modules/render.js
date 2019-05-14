@@ -1,13 +1,15 @@
-import { data } from "./data.js";
+import {
+  data
+} from "./data.js";
 
 export var render = {
-  loader: function(id) {
+  loader: function (id) {
     var id = document.getElementById("wrapper");
     var render = '<img src="img/pokeball.gif " alt="loading">';
     id.insertAdjacentHTML("beforeend", render);
   },
 
-  detail: function(name) {
+  detail: function (name) {
     var contentwrapper = document.getElementById("wrapper");
     var detail = data.getItem("details");
     detail = data.parse(detail);
@@ -48,7 +50,7 @@ export var render = {
     contentwrapper.insertAdjacentHTML("beforeend", render);
   },
 
-  overview: function(data) {
+  overview: function (data) {
     var contentwrapper = document.getElementById("wrapper");
     let render = data.results
       .map(data => {
@@ -64,13 +66,13 @@ export var render = {
     contentwrapper.insertAdjacentHTML("beforeend", render);
   },
 
-  fill: function(data) {
+  fill: function (data) {
     var pokeId = document.getElementById(data.name);
     var render = `<img src="${data.img}" alt="picture of ${data.name}">`;
     pokeId.insertAdjacentHTML("beforeend", render);
   },
 
-  remove: function(id) {
+  remove: function (id) {
     document.getElementById(id).innerHTML = "";
   }
 };
