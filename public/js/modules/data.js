@@ -1,19 +1,20 @@
 export var data = {
-  getItem: function(key) {
+  getItem: function (key) {
     var get = localStorage.getItem(key);
     return get;
   },
 
-  setItem: function(data, key) {
+  setItem: function (data, key) {
     localStorage.setItem(key, JSON.stringify(data));
   },
 
-  parse: function(item) {
+  parse: function (item) {
     var parsed = JSON.parse(item);
+    console.log(parsed);
     return parsed;
   },
 
-  filter: function(data) {
+  filter: function (data) {
     var filter = [];
     filter.push({
       id: data.id,

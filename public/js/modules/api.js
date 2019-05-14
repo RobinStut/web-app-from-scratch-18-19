@@ -1,4 +1,6 @@
-import { data } from "./data.js";
+import {
+  data
+} from "./data.js";
 
 export var api = {
   get: async () => {
@@ -25,6 +27,7 @@ export var api = {
     });
     // bevat alle items nadat alles binnen is
     var allData = await Promise.all(details);
+    console.log(allData);
     await data.setItem(allData, "details");
     // return eerste fetch
     return await allData;
