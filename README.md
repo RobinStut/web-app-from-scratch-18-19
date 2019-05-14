@@ -6,7 +6,9 @@ Deze applicatie bevat de data van de [pokéAPI](https://pokeapi.co/). De API bev
 
 > "All the Pokémon data you'll ever need in one place, easily accessible through a modern RESTful API."
 
-![screenshot](screenshot.png)
+![overviewPage](overviewPage.png)
+![detailPage](detailPage.png)
+
 
 Bekijk hier live de[demo](link)!
 
